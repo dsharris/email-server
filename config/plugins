@@ -69,6 +69,6 @@ data.headers
 queue/smtp_forward
 
 # Disconnect client if they spew bad SMTP commands at us
-max_unrecognized_commands
+limit
 
 #watch
