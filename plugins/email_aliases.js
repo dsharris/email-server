@@ -7,6 +7,7 @@ exports.hook_rcpt = function (next, connection, params) {
 	this.loginfo('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=');
 	rcpt.user = 'georgelaughalot';
 	rcpt.host = 'gmail.com';
+	rcpt.original_host = 'gmail.com';
 	this.loginfo(JSON.stringify(rcpt));
 	this.loginfo('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=');
 	this.loginfo('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=');
