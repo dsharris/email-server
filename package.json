@@ -1,8 +1,8 @@
 {
-  "name": "haraka_local",
-  "description": "An SMTP Server",
+  "name": "dsharris email server",
+  "description": "An SMTP Email Realy Server",
   "version": "0.0.1",
-  "dependencies": {
-    "mongoose": "~3.8.17"
-  }
+  "dependencies": {},
+  "repository": "",
+  "license": "MIT"
 }
