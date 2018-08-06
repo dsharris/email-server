@@ -8,13 +8,13 @@
 access
 
 # block mails from known bad hosts (see config/dnsbl.zones for the DNS zones queried)
-dnsbl
+#dnsbl
 
 # Check mail headers are valid
-data.headers
+#data.headers
 
 # block mail from some known bad HELOs - see config/helo.checks.ini for configuration
-helo.checks
+#helo.checks
 
 # see 'haraka -h tls' for config instructions before enabling!
 # tls
