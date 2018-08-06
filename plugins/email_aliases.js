@@ -10,6 +10,3 @@ exports.hook_rcpt = function (next, connection, params) {
 	this.loginfo('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=');
 	next();
 }
-exports.hook_get_mx = function (next, mail) {
-    next(OK, "127.0.0.1:2525");
-}
