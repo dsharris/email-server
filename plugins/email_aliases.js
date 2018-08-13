@@ -1,8 +1,11 @@
 var skip;
-this.config.get('skipped.emails', function (skipped) {
-	skip = skipped;
-	console.log(skipped);
-});
+
+exports.register = function () {
+	this.config.get('skipped.emails', function (skipped) {
+		skip = skipped;
+		console.log(skipped);
+	});
+}
 
 exports.hook_rcpt = function (next, connection, params) {
 	var rcpt = params[0];
