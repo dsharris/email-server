@@ -1,1 +1,2 @@
 config/smtp_forward.ini
+config/skipped.emails.json
