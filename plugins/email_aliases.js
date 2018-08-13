@@ -1,11 +1,7 @@
-var skip;
-
-exports.register = function () {
-	this.config.get('skipped.emails', function (skipped) {
-		skip = skipped;
-		console.log(skipped);
-	});
-}
+var skip = [
+	"tacobell@dsharris.org",
+	"godaddy@dsharris.org"
+];
 
 exports.hook_rcpt = function (next, connection, params) {
 	var rcpt = params[0];
