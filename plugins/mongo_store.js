@@ -123,7 +123,7 @@ function StoreAttachments(connection, plugin, attachments, mail_object, cb) {
 
 	async.each(attachments, function (attachment, each_callback) {
 
-		plugin.loginfo('Begin storing attachment : ', attachment);
+		plugin.loginfo('Begin storing attachment : ');
 
 		// Path to attachments dir
 		var attachments_folder_path = AttachmentsPath;
