@@ -1,6 +1,6 @@
 exports.register = function () {
 	this.load_config();
-	this.register_hook('hook_rcpt', 'test_address');
+	this.register_hook('rcpt', 'test_address');
 }
 
 exports.load_config = function () {
