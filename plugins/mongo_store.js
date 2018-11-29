@@ -8,17 +8,11 @@ var path = require('path');
 var MailParser = require("mailparser-mit").MailParser;
 
 exports.register = function () {
-	this.load_config();
 	this.register_hook('init_master', 'initialize_mongodb');
 	this.register_hook('init_child', 'initialize_mongodb');
 
 	this.register_hook('data', 'enable_transaction_body_parse');
 	this.register_hook('queue', 'queue_to_mongodb');
-}
-
-exports.load_config = function () {
-	this.config = this.config.get('config.json', this.load_config);
-	this.lognotice(this.config.skip);
 }
 
 exports.initialize_mongodb = function (next, server) {

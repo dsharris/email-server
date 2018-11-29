@@ -16,6 +16,7 @@ mail_from.is_resolvable
 rcpt_to.in_host_list
 
 #email_aliases
+address_skipping
 mongo_store
 
 # Check mail headers are valid
