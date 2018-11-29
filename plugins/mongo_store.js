@@ -18,7 +18,7 @@ exports.register = function () {
 
 exports.load_config = function () {
 	this.config = this.config.get('config.json', this.load_config);
-	this.lognotice(this.config);
+	this.lognotice(this.config.skip);
 }
 
 exports.initialize_mongodb = function (next, server) {
