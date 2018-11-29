@@ -1,2 +1,41 @@
 config/smtp_forward.ini
 config/skipped.emails.json
+
+# Site stuff
+data/
+
+# Logs
+logs
+npm-debug.*
+*.log.*
+npm-debug.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+package-lock.json
+
+# Compiled binary addons (http://nodejs.org/api/addons.html)
+build/Release
+
+# Dependency directory
+node_modules
+
+# PM2 structure
+pm2.json
+
+# Store files
+*.DS_Store
+.DS_Store
+
+# Videos
+public/videos/*
+
+# Electron Builds
+electron/release-builds
+
+# local documents
+docs
+docs/*
+doc.txt
