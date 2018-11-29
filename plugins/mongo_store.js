@@ -8,33 +8,37 @@ var path = require('path');
 var MailParser = require("mailparser-mit").MailParser;
 
 exports.register = function () {
+	this.load_config();
 	this.register_hook('init_master', 'initialize_mongodb');
 	this.register_hook('init_child', 'initialize_mongodb');
 
 	this.register_hook('data', 'enable_transaction_body_parse');
 	this.register_hook('queue', 'queue_to_mongodb');
+}
 
+exports.load_config = function () {
+	this.config = plugin.config.get('config.json', this.load_config);
+	console.log(this.config);
 }
 
 exports.initialize_mongodb = function (next, server) {
-	var plugin = this;
 	if ( ! server.notes.mongodb ) {
 		require('mongodb').MongoClient.connect("mongodb://localhost:27017", { useNewUrlParser: true })
 		.then(database => {
 			server.notes.mongodb = database.db("emails");
-			plugin.lognotice('-------------------------------------- ');
-			plugin.lognotice(' Successfully connected to MongoDB !!! ');
-			plugin.lognotice('-------------------------------------- ');
-			plugin.lognotice('   Waiting for emails to arrive !!!    ');
-			plugin.lognotice('-------------------------------------- ');
+			this.lognotice('-------------------------------------- ');
+			this.lognotice(' Successfully connected to MongoDB !!! ');
+			this.lognotice('-------------------------------------- ');
+			this.lognotice('   Waiting for emails to arrive !!!    ');
+			this.lognotice('-------------------------------------- ');
 			next();
 		}).catch(err => {
-			plugin.logerror('ERROR connecting to MongoDB !!!');
-			plugin.logerror(err);
+			this.logerror('ERROR connecting to MongoDB !!!');
+			this.logerror(err);
 			throw err;
 		})
 	} else {
-		plugin.loginfo('There is already a MongoDB connection in the server.notes !!!');
+		this.loginfo('There is already a MongoDB connection in the server.notes !!!');
 		next();
 	}
 
