@@ -7,29 +7,24 @@ exports.load_config = function () {
 	let config = this.config.get('config.json', this.load_config);
 	this.skip_addresses = config.skip.map(address => address.toLowerCase());
 	this.loginfo('--------------------------------------');
-	this.loginfo(' Successfully loaded skip list !!! ');
+	this.loginfo(' Address Skipping List Loaded ');
 	this.loginfo('--------------------------------------');
 	this.loginfo(this.skip_addresses.join(', '));
 	this.loginfo('--------------------------------------');
 }
 
 exports.test_address = function (next, connection, params) {
-	this.loginfo('--------------------------------------');
-	this.loginfo(params);
-	var rcpt = params[0];
-	var ToAddress = `${rcpt.user}@${rcpt.original_host}`;
-	this.loginfo('--------------------------------------');
-	this.loginfo(`Got recipient: ${ToAddress}`);
-	this.loginfo('--------------------------------------');
+	var ToAddress = `${params[0].user}@${params[0].original_host}`;
 
 	if (this.skip_addresses.indexOf(ToAddress.toLowerCase()) > -1) {
+		this.loginfo('--------------------------------------');
 		this.loginfo(`Skipped Address: ${ToAddress}`);
 		this.loginfo('--------------------------------------');
 		return next(DENY, "Skipped Address");
 	}
 
+	this.loginfo('--------------------------------------');
 	this.loginfo(`Passed Address: ${ToAddress}`);
 	this.loginfo('--------------------------------------');
-
 	return next();
 }
