@@ -20,11 +20,11 @@ exports.initialize_mongodb = function (next, server) {
 		require('mongodb').MongoClient.connect("mongodb://localhost:27017", { useNewUrlParser: true })
 		.then(database => {
 			server.notes.mongodb = database.db("emails");
-			this.lognotice('-------------------------------------- ');
-			this.lognotice(' Successfully connected to MongoDB !!! ');
-			this.lognotice('-------------------------------------- ');
-			this.lognotice('   Waiting for emails to arrive !!!    ');
-			this.lognotice('-------------------------------------- ');
+			this.loginfo('-------------------------------------- ');
+			this.loginfo(' Successfully connected to MongoDB !!! ');
+			this.loginfo('-------------------------------------- ');
+			this.loginfo('   Waiting for emails to arrive !!!    ');
+			this.loginfo('-------------------------------------- ');
 			next();
 		}).catch(err => {
 			this.logerror('ERROR connecting to MongoDB !!!');
@@ -79,11 +79,11 @@ exports.queue_to_mongodb = function(next, connection) {
 			'transferred' : false
 		};
 
-		server.notes.mongodb.collection('emails').insert(_email)
+		server.notes.mongodb.collection('emails').insertOne(_email)
 			.then(done => {
-				this.lognotice('--------------------------------------');
-				this.lognotice(' Successfully stored the email !!! ');
-				this.lognotice('--------------------------------------');
+				this.loginfo('--------------------------------------');
+				this.loginfo(' Successfully stored the email !!! ');
+				this.loginfo('--------------------------------------');
 				next(OK);
 			})
 			.catch(err => {
@@ -173,10 +173,10 @@ function StoreAttachments(connection, plugin, attachments, mail_object, cb) {
 				// Log
 				if (error) plugin.logerror(`Error saving attachment locally to path ${attachment_full_path}, error :`, error);
 
-				plugin.lognotice(`Attachment ${attachment.generatedFileName} successfully stored locally (${attachment.length} bytes)`);
+				plugin.loginfo(`Attachment ${attachment.generatedFileName} successfully stored locally (${attachment.length} bytes)`);
 
 				if (attachment.generatedFileName.toLowerCase() === 'winmail.dat') {
-					plugin.lognotice('found winmail.dat ... not sure what to do here');
+					plugin.loginfo('found winmail.dat ... not sure what to do here');
 				} else {
 					delete attachment.content;
 					_attachments.push(attachment);
