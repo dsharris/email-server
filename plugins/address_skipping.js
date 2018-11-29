@@ -14,6 +14,8 @@ exports.load_config = function () {
 }
 
 exports.test_address = function (next, connection, params) {
+	this.loginfo('--------------------------------------');
+	this.loginfo(params);
 	var rcpt = params[0];
 	var ToAddress = `${rcpt.user}@${rcpt.original_host}`;
 	this.loginfo('--------------------------------------');
