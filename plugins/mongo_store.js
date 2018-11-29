@@ -53,7 +53,7 @@ exports.queue_to_mongodb = function(next, connection) {
 	ParseMail(plugin, connection, (email_object) => {
 
 		var _email = {
-			'raw': email_object,
+			// 'raw': email_object,
 			'from': email_object.from,
 			'to': email_object.to,
 			'cc': email_object.cc,
