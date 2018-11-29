@@ -8,8 +8,6 @@ var path = require('path');
 var MailParser = require("mailparser-mit").MailParser;
 
 exports.register = function () {
-	if (this.name !== 'mongodb') return;
-
 	this.register_hook('init_master', 'initialize_mongodb');
 	this.register_hook('init_child', 'initialize_mongodb');
 
