@@ -26,5 +26,5 @@ exports.test_address = function (next, connection, params) {
 	this.loginfo('--------------------------------------');
 	this.loginfo(`Passed Address: ${ToAddress}`);
 	this.loginfo('--------------------------------------');
-	return next();
+	return next(OK);
 }
