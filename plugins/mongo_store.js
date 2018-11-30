@@ -21,6 +21,10 @@ exports.load_config = function () {
 
 	this.mongo_url = config.url;
 	this.mongo_collection = config.collection;
+
+	this.loginfo('---------------------');
+	this.loginfo(`MongoDB Config Loaded`);
+	this.loginfo('---------------------');
 }
 
 exports.initialize_mongodb = function (next, server) {

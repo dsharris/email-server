@@ -17,6 +17,10 @@ exports.load_config = function () {
 	this.api_key = config.key;
 	this.api_domain = config.domain;
 
+	this.loginfo('---------------------');
+	this.loginfo(`Mailgun Config Loaded`);
+	this.loginfo('---------------------');
+
 	this.Mailgun = mailgun({
 		apiKey: this.api_key,
 		domain: this.api_domain

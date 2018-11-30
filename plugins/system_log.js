@@ -1,4 +1,7 @@
 exports.register = function () {
+	this.loginfo('-----------------------');
+	this.loginfo(`SystemLog Plugin Loaded`);
+	this.loginfo('-----------------------');
 	this.register_hook('mail', 'init_log', -100);
 }
 
