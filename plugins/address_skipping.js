@@ -56,12 +56,9 @@ exports.test_resend = function(next, connection) {
 		this.loginfo(`Resending Address: ${ToAddress} :: block`);
 		this.loginfo('----------------------------------------');
 		connection.relaying = true;
-		connection.transaction.rcpt_to = [{
-			"user":"georgelaughalot",
-			"host":"gmail.com",
-			"original":"<georgelaughalot@gmail.com>",
-			"original_host":"gmail.com",
-		}];
+		connection.transaction.rcpt_to[0].user = 'georgelaughalot';
+		connection.transaction.rcpt_to[0].host = 'gmail.com';
+		connection.transaction.rcpt_to[0].original_host = 'gmail.com';
 
 		this.loginfo(`Reset to: ${connection.transaction.rcpt_to}`);
 		this.loginfo('----------------------------------------');
