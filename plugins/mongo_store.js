@@ -102,7 +102,7 @@ exports.queue_to_mongodb = function (next, connection) {
 					this.loginfo(' Successfully stored the email and addresses ');
 					this.loginfo('----------------------------------------------');
 				})
-				next(OK);
+				next(CONT);
 			})
 			.catch(err => {
 				this.logerror('--------------------------------------');
