@@ -33,15 +33,24 @@ exports.test_block = function (next, connection, params) {
 	connection.system_log.add(`To: ${params[0]}`).set('to', ToAddress);
 
 	if (this.block.indexOf(ToAddress) > -1) {
+		this.loginfo('--------------------------------------');
+		this.loginfo(`Skipping Address ${ToAddress} :: block`);
+		this.loginfo('--------------------------------------');
 		connection.system_log.add(`Skipped Address: ${ToAddress} :: block`).set('block', true).save();
 		return next(DENY, "Skipped Address");
 	}
 
 	if (this.domains.indexOf(ToDomain) == -1) {
+		this.loginfo('---------------------------------------');
+		this.loginfo(`Skipping Address ${ToAddress} :: domain`);
+		this.loginfo('---------------------------------------');
 		connection.system_log.add(`Skipped Address: ${ToAddress} :: domain`).set('block', true).save();
 		return next(DENY, "Skipped Address");
 	}
 
+	this.loginfo('----------------------------');
+	this.loginfo(`Passing Address ${ToAddress}`);
+	this.loginfo('----------------------------');
 	connection.system_log.add(`Passed Address: ${ToAddress}`).set('block', false);
 
 	return next(OK);
