@@ -47,13 +47,13 @@ exports.test_resend = function(next, connection) {
 	var ToAddress = `${connection.transaction.rcpt_to[0].user}@${connection.transaction.rcpt_to[0].original_host}`.toLowerCase();
 
 	this.loginfo('----------------------------');
-	this.loginfo(`Testing Resend: ${connection.transaction.rcpt_to[0]}`);
+	this.loginfo(`Testing Resend: ${JSON.stringify(connection.transaction.rcpt_to[0])}`);
 	this.loginfo('----------------------------');
 
 
 	if (this.resend.indexOf(ToAddress) > -1) {
 		this.loginfo('----------------------------------------');
-		this.loginfo(`Resending Address: ${ToAddress} :: block`);
+		this.loginfo(`Resending Address: ${ToAddress}`);
 		this.loginfo('----------------------------------------');
 		connection.relaying = true;
 		this.loginfo(`Reset to: ${connection.transaction.rcpt_to}`);
