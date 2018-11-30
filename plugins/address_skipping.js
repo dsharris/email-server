@@ -5,7 +5,7 @@ exports.register = function () {
 }
 
 exports.load_config = function () {
-	let config = this.config.get('config.json', () => this.load_config.apply(this));
+	let config = this.config.get('config.json', () => this.load_config());
 
 	this.block = config.block.map(address => address.toLowerCase());
 	this.resend = config.resend.map(address => address.toLowerCase());
