@@ -8,6 +8,7 @@ var path = require('path');
 var MailParser = require("mailparser-mit").MailParser;
 
 exports.register = function () {
+	this.load_config();
 	this.register_hook('init_master', 'initialize_mongodb');
 	this.register_hook('init_child', 'initialize_mongodb');
 
@@ -15,15 +16,20 @@ exports.register = function () {
 	this.register_hook('data_post', 'queue_to_mongodb');
 }
 
+exports.load_config = function () {
+	let config = this.config.get('config.json', this.load_config);
+
+	this.mongo_url = config.mongo.url;
+	this.mongo_collection = config.mongo.collection;
+}
+
 exports.initialize_mongodb = function (next, server) {
 	if ( ! server.notes.mongodb ) {
-		require('mongodb').MongoClient.connect("mongodb://localhost:27017", { useNewUrlParser: true })
+		require('mongodb').MongoClient.connect(this.mongo_url, { useNewUrlParser: true })
 		.then(database => {
-			server.notes.mongodb = database.db("emails");
+			server.notes.mongodb = database.db(this.mongo.collection);
 			this.loginfo('-------------------------------------- ');
-			this.loginfo(' Successfully connected to MongoDB !!! ');
-			this.loginfo('-------------------------------------- ');
-			this.loginfo('   Waiting for emails to arrive !!!    ');
+			this.loginfo(` Successfully connected to MongoDB:${this.mongo.collection} `);
 			this.loginfo('-------------------------------------- ');
 			next();
 		}).catch(err => {

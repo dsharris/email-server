@@ -6,17 +6,13 @@ exports.register = function () {
 
 exports.load_config = function () {
 	let config = this.config.get('config.json', this.load_config);
-	this.skip_addresses = config.skip.map(address => address.toLowerCase());
 
 	this.block = config.block.map(address => address.toLowerCase());
 	this.resend = config.resend.map(address => address.toLowerCase());
 	this.domains = config.domains.map(address => address.toLowerCase());
 
-	this.loginfo('--------------------------------------');
-	this.loginfo(' Address Skipping List Loaded ');
-	this.loginfo('--------------------------------------');
-	this.loginfo(this.skip_addresses.join(', '));
-	this.loginfo('--------------------------------------');
+	this.resend_address.user = config.resend_address.user;
+	this.resend_address.host = config.resend_address.host;
 }
 
 exports.test_block = function (next, connection, params) {
@@ -46,24 +42,20 @@ exports.test_block = function (next, connection, params) {
 exports.test_resend = function(next, connection) {
 	var ToAddress = `${connection.transaction.rcpt_to[0].user}@${connection.transaction.rcpt_to[0].original_host}`.toLowerCase();
 
-	this.loginfo('----------------------------');
-	this.loginfo(`Testing Resend: ${ToAddress}`);
-	this.loginfo('----------------------------');
-
-
 	if (this.resend.indexOf(ToAddress) > -1) {
-		this.loginfo('----------------------------------------');
-		this.loginfo(`Resending Address: ${ToAddress} :: block`);
-		this.loginfo('----------------------------------------');
 		connection.relaying = true;
-		connection.transaction.rcpt_to[0].user = 'georgelaughalot';
-		connection.transaction.rcpt_to[0].host = 'gmail.com';
-		connection.transaction.rcpt_to[0].original_host = 'gmail.com';
+		connection.transaction.rcpt_to[0].user = this.resend_address.user;
+		connection.transaction.rcpt_to[0].host = this.resend_address.host;
+		connection.transaction.rcpt_to[0].original_host = this.resend_address.host;
 
-		this.loginfo(`Reset to: ${connection.transaction.rcpt_to}`);
 		this.loginfo('----------------------------------------');
-
-
+		this.loginfo(`Resending Address: ${ToAddress} => ${connection.transaction.rcpt_to}`);
+		this.loginfo('----------------------------------------');
+	} else {
+		connection.relaying = false;
+		this.loginfo('----------------------------');
+		this.loginfo(`Mail Delivery Skipped`);
+		this.loginfo('----------------------------');
 	}
 
 	return next(OK);
