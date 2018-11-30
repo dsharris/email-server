@@ -28,8 +28,8 @@ exports.relay = function(next, connection) {
 		var data = {
 			from: `${email_object.from[0].name} <${email_object.from[0].address}>`,
 			to: email_object.to.map(to => `${to.name} <${to.address}>`).join(', '),
-			cc: email_object.cc.map(cc => `${cc.name} <${cc.address}>`).join(', '),
-			bcc: email_object.bcc.map(bcc => `${bcc.name} <${bcc.address}>`).join(', '),
+			cc: email_object.cc ? email_object.cc.map(cc => `${cc.name} <${cc.address}>`).join(', ') : '',
+			bcc: email_object.bcc ? email_object.bcc.map(bcc => `${bcc.name} <${bcc.address}>`).join(', ') : '',
 			subject: email_object.subject,
 			text: email_object.text,
 			html: email_object.html,
