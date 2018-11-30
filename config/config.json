@@ -11,7 +11,9 @@
   ],
   "resend": [
     "spotify@dsharris.org",
-    "amazon@dsharris.org"
+    "spotify@dsharris.io",
+    "amazon@dsharris.org",
+    "amazon@dsharris.io"
   ],
   "domains": [
     "dsharris.org",
