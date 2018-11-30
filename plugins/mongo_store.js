@@ -17,7 +17,7 @@ exports.register = function () {
 }
 
 exports.load_config = function () {
-	let config = this.config.get('config.json', () => this.load_config());
+	let config = this.config.get('config.json');
 
 	this.mongo_url = config.mongo.url;
 	this.mongo_collection = config.mongo.collection;
