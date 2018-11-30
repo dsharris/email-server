@@ -11,8 +11,10 @@ exports.load_config = function () {
 	this.resend = config.resend.map(address => address.toLowerCase());
 	this.domains = config.domains.map(address => address.toLowerCase());
 
-	this.resend_address.user = config.resend_address.user;
-	this.resend_address.host = config.resend_address.host;
+	this.resend_address = {
+		user: config.resend_address.user,
+		host: config.resend_address.host
+	};
 }
 
 exports.test_block = function (next, connection, params) {
