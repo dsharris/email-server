@@ -10,6 +10,7 @@ exports.load_config = function () {
 		this.loginfo('-------------------');
 		this.loginfo('config.json changed');
 		this.loginfo('-------------------');
+		console.log(123);
 		plugin.load_config();
 	});
 
