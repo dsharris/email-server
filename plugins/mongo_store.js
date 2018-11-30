@@ -12,7 +12,7 @@ exports.register = function () {
 	this.register_hook('init_child', 'initialize_mongodb');
 
 	this.register_hook('data', 'enable_transaction_body_parse');
-	this.register_hook('queue', 'queue_to_mongodb', -1);
+	this.register_hook('queue', 'queue_to_mongodb', -10);
 }
 
 exports.initialize_mongodb = function (next, server) {

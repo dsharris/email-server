@@ -1,7 +1,7 @@
 exports.register = function () {
 	this.load_config();
 	this.register_hook('rcpt', 'test_block', -100);
-	this.register_hook('queue', 'test_resend', 1);
+	this.register_hook('queue', 'test_resend');
 }
 
 exports.load_config = function () {
