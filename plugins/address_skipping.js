@@ -30,7 +30,7 @@ exports.test_block = function (next, connection, params) {
 		return next(DENY, "Skipped Address");
 	}
 
-	if (this.domains.indexOf(ToDomain) > -1) {
+	if (this.domains.indexOf(ToDomain) == -1) {
 		this.loginfo('---------------------------------------');
 		this.loginfo(`Skipped Address: ${ToAddress} :: domain`);
 		this.loginfo('---------------------------------------');
