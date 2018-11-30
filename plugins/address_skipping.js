@@ -60,7 +60,7 @@ exports.test_resend = function(next, connection) {
 	var ToAddress = `${connection.transaction.rcpt_to[0].user}@${connection.transaction.rcpt_to[0].original_host}`.toLowerCase();
 
 	if (this.resend.indexOf(ToAddress) > -1) {
-		connection.relaying = true;
+		connection.resend_confirmed = true;
 		connection.transaction.rcpt_to[0].user = this.resend_address.user;
 		connection.transaction.rcpt_to[0].host = this.resend_address.host;
 		connection.transaction.rcpt_to[0].original_host = this.resend_address.host;
@@ -73,7 +73,7 @@ exports.test_resend = function(next, connection) {
 	} else {
 		// this sill skip delivery later in the process
 		connection.system_log.set('resend', false);
-		connection.relaying = false;
+		connection.resend_confirmed = false;
 
 		this.logdebug('-----------------------');
 		this.logdebug(`Setting Resend to FALSE`);

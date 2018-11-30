@@ -31,10 +31,11 @@ exports.relay = function(next, connection) {
 	this.logdebug('-------------');
 	this.logdebug('Mailgun Relay');
 	this.logdebug('-------------');
-	if (!connection.relaying) {
-		this.logdebug('--------------');
-		this.logdebug('Relay Skipped ');
-		this.logdebug('--------------');
+
+	if (!connection.resend_confirmed) {
+		this.logdebug('---------------');
+		this.logdebug('Resend Skipped ');
+		this.logdebug('---------------');
 
 		connection.system_log.add('Delivery Skipped').save();
 		return next(OK);
