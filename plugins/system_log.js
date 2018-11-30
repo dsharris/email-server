@@ -24,6 +24,7 @@ const SystemLog = function (db, log) {
 
 exports.init_log = function (next, connection, params) {
 	connection.system_log = connection.system_log || new SystemLog(server.notes.mongodb, this.loginfo);
+	connection.system_log.add(`FROM: ${params[0]}`);
 	this.loginfo('------------------');
 	this.loginfo('Systemlog Attached');
 	this.loginfo('------------------');
