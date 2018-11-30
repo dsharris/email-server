@@ -5,12 +5,11 @@ exports.register = function () {
 }
 
 exports.load_config = function () {
-	let plugin = this;
-	let config = this.config.get('address_config.json', function () {
+	let config = this.config.get('address_config.json', () => {
 		this.loginfo('---------------------------');
 		this.loginfo('address_config.json changed');
 		this.loginfo('---------------------------');
-		plugin.load_config();
+		this.load_config.apply(this);
 	});
 
 	this.block = config.block.map(address => address.toLowerCase());
