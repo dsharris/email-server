@@ -11,7 +11,7 @@ const SystemLog = function (db, log) {
 	}
 
 	this.save = () => {
-		return db.collection('emails').insertOne({
+		return db.collection('logs').insertOne({
 			logs: Log,
 			'timestamp': new Date(),
 		}).then(done => {
