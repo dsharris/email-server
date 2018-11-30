@@ -1,5 +1,4 @@
 exports.register = function () {
-	this.load_config();
 	this.register_hook('mail', 'init_log', -100);
 }
 
