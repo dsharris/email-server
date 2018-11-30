@@ -27,7 +27,7 @@ exports.initialize_mongodb = function (next, server) {
 	if ( ! server.notes.mongodb ) {
 		require('mongodb').MongoClient.connect(this.mongo_url, { useNewUrlParser: true })
 		.then(database => {
-			server.notes.mongodb = database.db(this.mongo.collection);
+			server.notes.mongodb = database.db(this.mongo_collection);
 			this.loginfo('-------------------------------------- ');
 			this.loginfo(` Successfully connected to MongoDB:${this.mongo.collection} `);
 			this.loginfo('-------------------------------------- ');
