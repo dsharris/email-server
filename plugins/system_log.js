@@ -56,5 +56,5 @@ exports.init_log = function (next, connection, params) {
 	this.loginfo('Systemlog Attached');
 	this.loginfo('------------------');
 
-	return next(OK);
+	return next(CONT);
 }

@@ -80,5 +80,5 @@ exports.test_resend = function(next, connection) {
 		this.loginfo('-----------------------');
 	}
 
-	return next(OK);
+	return next(CONT);
 }
