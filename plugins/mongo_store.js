@@ -79,11 +79,29 @@ exports.queue_to_mongodb = function(next, connection) {
 			'transferred' : false
 		};
 
+		let addressVerifications = email_object.to.map(to => {
+			server.notes.mongodb.collection('addresses')
+				.findOne({email: to.address.toLowerCase()})
+				.then(found => {
+					if (!!found) return found;
+					var _address = {
+						name: to.name,
+						email: to.address.toLowerCase()
+					};
+					this.loginfo('--------------------------------------');
+					this.loginfo(` Creating new address ${_address.email} `);
+					this.loginfo('--------------------------------------');
+					return server.notes.mongodb.collection('addresses').insertOne(_address);
+				})
+		})
+
 		server.notes.mongodb.collection('emails').insertOne(_email)
 			.then(done => {
-				this.loginfo('--------------------------------------');
-				this.loginfo(' Successfully stored the email !!! ');
-				this.loginfo('--------------------------------------');
+				Promise.all(addressVerifications).then(done => {
+					this.loginfo('----------------------------------------------');
+					this.loginfo(' Successfully stored the email and addresses ');
+					this.loginfo('----------------------------------------------');
+				})
 				next(OK);
 			})
 			.catch(err => {
