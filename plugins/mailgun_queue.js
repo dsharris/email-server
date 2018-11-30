@@ -1,4 +1,5 @@
 const mailgun = require('mailgun-js');
+var MailParser = require("mailparser-mit").MailParser;
 
 exports.register = function () {
 	this.load_config();
