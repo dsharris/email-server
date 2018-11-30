@@ -3,7 +3,7 @@ exports.register = function () {
 	this.register_hook('mail', 'init_log', -100);
 }
 
-const SystemLog = function (db, log) => {
+const SystemLog = function (db, log) {
 	let Log = [];
 
 	this.add = (msg) => {
