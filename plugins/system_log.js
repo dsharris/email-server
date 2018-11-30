@@ -5,7 +5,7 @@ exports.register = function () {
 const SystemLog = function (db, log) {
 	let Data = {
 		logs: [],
-		info: {}
+		info: {},
 		start: new Date()
 	};
 
