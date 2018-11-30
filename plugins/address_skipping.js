@@ -33,16 +33,16 @@ exports.test_block = function (next, connection, params) {
 	connection.system_log.add(`To: ${params[0]}`).set('to', ToAddress);
 
 	if (this.block.indexOf(ToAddress) > -1) {
-		connection.system_log.add(`Skipped Address: ${ToAddress} :: block`).save();
+		connection.system_log.add(`Skipped Address: ${ToAddress} :: block`).set('block', true).save();
 		return next(DENY, "Skipped Address");
 	}
 
 	if (this.domains.indexOf(ToDomain) == -1) {
-		connection.system_log.add(`Skipped Address: ${ToAddress} :: domain`).save();
+		connection.system_log.add(`Skipped Address: ${ToAddress} :: domain`).set('block', true).save();
 		return next(DENY, "Skipped Address");
 	}
 
-	connection.system_log.add(`Passed Address: ${ToAddress}`);
+	connection.system_log.add(`Passed Address: ${ToAddress}`).set('block', false);
 
 	return next(OK);
 }
@@ -56,9 +56,10 @@ exports.test_resend = function(next, connection) {
 		connection.transaction.rcpt_to[0].host = this.resend_address.host;
 		connection.transaction.rcpt_to[0].original_host = this.resend_address.host;
 
-		connection.system_log.add(`Resending Address: ${ToAddress} => ${connection.transaction.rcpt_to}`);
+		connection.system_log.add(`Resending Address: ${ToAddress} => ${connection.transaction.rcpt_to}`).set('resend', true);
 	} else {
 		// this sill skip delivery later in the process
+		connection.system_log.set('resend', false);
 		connection.relaying = false;
 	}
 

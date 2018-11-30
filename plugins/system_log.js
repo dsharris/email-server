@@ -4,9 +4,13 @@ exports.register = function () {
 
 const SystemLog = function (db, log) {
 	let Data = {
+		to: false,
 		logs: [],
 		info: {},
-		start: new Date()
+		from: false,
+		start: new Date(),
+		block: false,
+		resent: false
 	};
 
 	this.add = (msg) => {
@@ -15,16 +19,17 @@ const SystemLog = function (db, log) {
 	}
 
 	this.set = (key, val) => {
-		if (key == 'to') {
-			Data.to = val;
-			return this;
-		}
-		if (key == 'from') {
-			Data.from = val;
-			return this;
-		}
+		// reserved items
+		if (key == 'end') return this;
+		if (key == 'logs') return this;
+		if (key == 'info') return this;
+		if (key == 'start') return this;
 
-		Data.info[key] = val;
+		if (typeof Data[key] != 'undefined')
+			Data[key] = val;
+		else
+			Data.info[key] = val;
+
 		return this;
 	}
 
