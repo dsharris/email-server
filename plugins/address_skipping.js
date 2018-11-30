@@ -6,10 +6,10 @@ exports.register = function () {
 
 exports.load_config = function () {
 	let plugin = this;
-	let config = this.config.get('config.json', function () {
-		this.loginfo('-------------------');
-		this.loginfo('config.json changed');
-		this.loginfo('-------------------');
+	let config = this.config.get('address_config.json', function () {
+		this.loginfo('---------------------------');
+		this.loginfo('address_config.json changed');
+		this.loginfo('---------------------------');
 		plugin.load_config();
 	});
 
