@@ -12,7 +12,7 @@ exports.register = function () {
 	this.register_hook('init_child', 'initialize_mongodb');
 
 	this.register_hook('data', 'enable_transaction_body_parse');
-	this.register_hook('queue', 'queue_to_mongodb');
+	this.register_hook('queue', 'queue_to_mongodb', -1);
 }
 
 exports.initialize_mongodb = function (next, server) {
@@ -39,13 +39,13 @@ exports.initialize_mongodb = function (next, server) {
 };
 
 // Hook for data
-exports.enable_transaction_body_parse = function(next, connection) {
+exports.enable_transaction_body_parse = function (next, connection) {
 	connection.transaction.parse_body = true;
 	next();
 };
 
 // Hook for queue-ing
-exports.queue_to_mongodb = function(next, connection) {
+exports.queue_to_mongodb = function (next, connection) {
 
 	var plugin = this;
 	var body = connection.transaction.body;

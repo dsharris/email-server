@@ -1,7 +1,7 @@
 exports.register = function () {
 	this.load_config();
 	this.register_hook('rcpt', 'test_block', -100);
-	this.register_hook('queue', 'test_resend', 100);
+	this.register_hook('queue', 'test_resend', 1);
 }
 
 exports.load_config = function () {
@@ -44,6 +44,9 @@ exports.test_block = function (next, connection, params) {
 }
 
 exports.test_resend = function(next, connection) {
-	connection.transaction.rcpt_to = [new Address ('georgelaughalot', 'gmail.com')];
+	this.loginfo('-------------------------------------------------');
+	this.loginfo(`Testing Resend: ${connection.transaction.rcpt_to}`);
+	this.loginfo('-------------------------------------------------');
+	// connection.transaction.rcpt_to = [new Address ('georgelaughalot', 'gmail.com')];
 	return next(OK);
 }
