@@ -12,5 +12,9 @@
     "uuid": "^3.3.2"
   },
   "repository": "",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "kill" : "kill \"$(< /var/run/haraka.pid)\"; rm /var/run/haraka.pid;",
+    "boot" : "haraka -c ./; tail -fn 100 /var/log/haraka.log"
+  }
 }
