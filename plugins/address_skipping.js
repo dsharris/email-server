@@ -15,6 +15,10 @@ exports.load_config = function () {
 		user: config.resend_address.user,
 		host: config.resend_address.host
 	};
+
+	this.loginfo('------------------------------');
+	this.loginfo(`Address Skipping Config Loaded`);
+	this.loginfo('------------------------------');
 }
 
 exports.test_block = function (next, connection, params) {
