@@ -1,11 +1,17 @@
 exports.register = function () {
 	this.load_config();
-	this.register_hook('rcpt', 'test_address');
+	this.register_hook('rcpt', 'test_block', -100);
+	this.register_hook('queue', 'test_resend', 100);
 }
 
 exports.load_config = function () {
 	let config = this.config.get('config.json', this.load_config);
 	this.skip_addresses = config.skip.map(address => address.toLowerCase());
+
+	this.block = config.block.map(address => address.toLowerCase());
+	this.resend = config.resend.map(address => address.toLowerCase());
+	this.domains = config.domains.map(address => address.toLowerCase());
+
 	this.loginfo('--------------------------------------');
 	this.loginfo(' Address Skipping List Loaded ');
 	this.loginfo('--------------------------------------');
@@ -13,18 +19,31 @@ exports.load_config = function () {
 	this.loginfo('--------------------------------------');
 }
 
-exports.test_address = function (next, connection, params) {
-	var ToAddress = `${params[0].user}@${params[0].original_host}`;
+exports.test_block = function (next, connection, params) {
+	var ToDomain = params[0].original_host.toLowerCase();
+	var ToAddress = `${params[0].user}@${params[0].original_host}`.toLowerCase();
 
-	if (this.skip_addresses.indexOf(ToAddress.toLowerCase()) > -1) {
+	if (this.block.indexOf(ToAddress) > -1) {
 		this.loginfo('--------------------------------------');
-		this.loginfo(`Skipped Address: ${ToAddress}`);
+		this.loginfo(`Skipped Address: ${ToAddress} :: block`);
 		this.loginfo('--------------------------------------');
+		return next(DENY, "Skipped Address");
+	}
+
+	if (this.domains.indexOf(ToDomain) > -1) {
+		this.loginfo('---------------------------------------');
+		this.loginfo(`Skipped Address: ${ToAddress} :: domain`);
+		this.loginfo('---------------------------------------');
 		return next(DENY, "Skipped Address");
 	}
 
 	this.loginfo('--------------------------------------');
 	this.loginfo(`Passed Address: ${ToAddress}`);
 	this.loginfo('--------------------------------------');
+	return next(OK);
+}
+
+exports.test_resend = function(next, connection) {
+	connection.transaction.rcpt_to = [new Address ('georgelaughalot', 'gmail.com')];
 	return next(OK);
 }

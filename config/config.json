@@ -1,7 +1,20 @@
 {
-	"skip" : [
-	  "tacobell@dsharris.org",
-	  "godaddy@dsharris.org",
-	  "sales@dsharris.org"
-	]
+  "skip": [
+    "tacobell@dsharris.org",
+    "godaddy@dsharris.org",
+    "sales@dsharris.org"
+  ],
+  "block": [
+    "tacobell@dsharris.org",
+    "godaddy@dsharris.org",
+    "sales@dsharris.org"
+  ],
+  "resend": [
+    "spotify@dsharris.org",
+    "amazon@dsharris.org"
+  ],
+  "domains": [
+    "dsharris.org",
+    "dsharris.io"
+  ]
 }
