@@ -58,9 +58,16 @@ exports.relay = function(next, connection) {
 
 		this.Mailgun.messages().send(data, (error, body) => {
 			connection.system_log.add('Delivery Complete')
-				.add(`Error: ${error}`)
-				.add(`Body: ${body}`)
-				.save();
+				.add(`Error: ${JSON.stringify(error)}`)
+				.add(`Body: ${JSON.stringify(body)}`)
+
+			if (!!error) {
+				connection.system_log.set('mg_err', JSON.stringify(error));
+				connection.system_log.set('mg_success', false);
+			} else {
+				connection.system_log.set('mg_err', false);
+				connection.system_log.set('mg_success', JSON.stringify(body));
+			}
 
 			this.logdebug('------------');
 			this.logdebug('Mailgun Sent');
