@@ -56,8 +56,8 @@ exports.test_resend = function(next, connection) {
 
 		connection.system_log.add(`Resending Address: ${ToAddress} => ${connection.transaction.rcpt_to}`);
 	} else {
+		// this sill skip delivery later in the process
 		connection.relaying = false;
-		connection.system_log.add(`Mail Delivery Skipped`);
 	}
 
 	return next(OK);

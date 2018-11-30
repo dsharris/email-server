@@ -4,18 +4,17 @@ helo.checks
 # MAIL FROM
 mail_from.is_resolvable
 
-# MAIL
+# LOGGING
 system_log
 
-# RCPT TO
+# VERIFY ADDRESS
 address_skipping
 
-# DATA STORAGE
+# MONGO EMAIL STORAGE
 mongo_store
 
 # Check mail headers are valid
 data.headers
 
-# QUEUE
-# queue/smtp_forward
+# RELAY EMAIL
 mailgun_queue
