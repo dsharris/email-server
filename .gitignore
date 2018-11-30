@@ -1,5 +1,5 @@
 config/smtp_forward.ini
-config/skipped.emails.json
+config/config.json
 
 # Site stuff
 data/
