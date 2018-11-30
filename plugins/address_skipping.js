@@ -27,7 +27,7 @@ exports.load_config = function () {
 }
 
 exports.test_block = function (next, connection, params) {
-	connection.system_log.add(`To: ${params[0]}`);
+	connection.system_log.add(`To: ${params[0]}`).set('to', params[0]);
 	var ToDomain = params[0].original_host.toLowerCase();
 	var ToAddress = `${params[0].user}@${params[0].original_host}`.toLowerCase();
 
