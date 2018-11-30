@@ -1,7 +1,7 @@
 exports.register = function () {
 	this.load_config();
 	this.register_hook('rcpt', 'test_block', -100);
-	this.register_hook('queue', 'test_resend');
+	this.register_hook('data_post', 'test_resend', 10);
 }
 
 exports.load_config = function () {
@@ -47,15 +47,22 @@ exports.test_resend = function(next, connection) {
 	var ToAddress = `${connection.transaction.rcpt_to[0].user}@${connection.transaction.rcpt_to[0].original_host}`.toLowerCase();
 
 	this.loginfo('----------------------------');
-	this.loginfo(`Testing Resend: ${JSON.stringify(connection.transaction.rcpt_to[0])}`);
+	this.loginfo(`Testing Resend: ${ToAddress}`);
 	this.loginfo('----------------------------');
 
 
 	if (this.resend.indexOf(ToAddress) > -1) {
 		this.loginfo('----------------------------------------');
-		this.loginfo(`Resending Address: ${ToAddress}`);
+		this.loginfo(`Resending Address: ${ToAddress} :: block`);
 		this.loginfo('----------------------------------------');
 		connection.relaying = true;
+		connection.transaction.rcpt_to = [{
+			"user":"georgelaughalot",
+			"host":"gmail.com",
+			"original":"<georgelaughalot@gmail.com>",
+			"original_host":"gmail.com",
+		}];
+
 		this.loginfo(`Reset to: ${connection.transaction.rcpt_to}`);
 		this.loginfo('----------------------------------------');
 
