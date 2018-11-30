@@ -66,10 +66,18 @@ exports.test_resend = function(next, connection) {
 		connection.transaction.rcpt_to[0].original_host = this.resend_address.host;
 
 		connection.system_log.add(`Resending Address: ${ToAddress} => ${connection.transaction.rcpt_to}`).set('resend', true);
+
+		this.loginfo('--------------------------------------------------------------------');
+		this.loginfo(`Resending Address: ${ToAddress} => ${connection.transaction.rcpt_to}`);
+		this.loginfo('--------------------------------------------------------------------');
 	} else {
 		// this sill skip delivery later in the process
 		connection.system_log.set('resend', false);
 		connection.relaying = false;
+
+		this.loginfo('-----------------------');
+		this.loginfo(`Setting Resend to FALSE`);
+		this.loginfo('-----------------------');
 	}
 
 	return next(OK);
