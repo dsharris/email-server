@@ -33,24 +33,24 @@ exports.test_block = function (next, connection, params) {
 	connection.system_log.add(`To: ${params[0]}`).set('to', ToAddress);
 
 	if (this.block.indexOf(ToAddress) > -1) {
-		this.loginfo('--------------------------------------');
-		this.loginfo(`Skipping Address ${ToAddress} :: block`);
-		this.loginfo('--------------------------------------');
+		this.logdebug('--------------------------------------');
+		this.logdebug(`Skipping Address ${ToAddress} :: block`);
+		this.logdebug('--------------------------------------');
 		connection.system_log.add(`Skipped Address: ${ToAddress} :: block`).set('block', true).save();
 		return next(DENY, "Skipped Address");
 	}
 
 	if (this.domains.indexOf(ToDomain) == -1) {
-		this.loginfo('---------------------------------------');
-		this.loginfo(`Skipping Address ${ToAddress} :: domain`);
-		this.loginfo('---------------------------------------');
+		this.logdebug('---------------------------------------');
+		this.logdebug(`Skipping Address ${ToAddress} :: domain`);
+		this.logdebug('---------------------------------------');
 		connection.system_log.add(`Skipped Address: ${ToAddress} :: domain`).set('block', true).save();
 		return next(DENY, "Skipped Address");
 	}
 
-	this.loginfo('----------------------------');
-	this.loginfo(`Passing Address ${ToAddress}`);
-	this.loginfo('----------------------------');
+	this.logdebug('----------------------------');
+	this.logdebug(`Passing Address ${ToAddress}`);
+	this.logdebug('----------------------------');
 	connection.system_log.add(`Passed Address: ${ToAddress}`).set('block', false);
 
 	return next(OK);
@@ -67,17 +67,17 @@ exports.test_resend = function(next, connection) {
 
 		connection.system_log.add(`Resending Address: ${ToAddress} => ${connection.transaction.rcpt_to}`).set('resend', true);
 
-		this.loginfo('--------------------------------------------------------------------');
-		this.loginfo(`Resending Address: ${ToAddress} => ${connection.transaction.rcpt_to}`);
-		this.loginfo('--------------------------------------------------------------------');
+		this.logdebug('--------------------------------------------------------------------');
+		this.logdebug(`Resending Address: ${ToAddress} => ${connection.transaction.rcpt_to}`);
+		this.logdebug('--------------------------------------------------------------------');
 	} else {
 		// this sill skip delivery later in the process
 		connection.system_log.set('resend', false);
 		connection.relaying = false;
 
-		this.loginfo('-----------------------');
-		this.loginfo(`Setting Resend to FALSE`);
-		this.loginfo('-----------------------');
+		this.logdebug('-----------------------');
+		this.logdebug(`Setting Resend to FALSE`);
+		this.logdebug('-----------------------');
 	}
 
 	return next(CONT);

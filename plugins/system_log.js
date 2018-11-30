@@ -49,12 +49,12 @@ const SystemLog = function (db, log) {
 exports.init_log = function (next, connection, params) {
 	var FromAddress = `${params[0].user}@${params[0].original_host}`.toLowerCase();
 
-	connection.system_log = connection.system_log || new SystemLog(server.notes.mongodb, this.loginfo);
+	connection.system_log = connection.system_log || new SystemLog(server.notes.mongodb, this.logdebug);
 	connection.system_log.add(`FROM: ${params[0]}`).set('from', FromAddress);
 
-	this.loginfo('------------------');
-	this.loginfo('Systemlog Attached');
-	this.loginfo('------------------');
+	this.logdebug('------------------');
+	this.logdebug('Systemlog Attached');
+	this.logdebug('------------------');
 
 	return next(CONT);
 }

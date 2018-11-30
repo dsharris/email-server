@@ -28,7 +28,14 @@ exports.load_config = function () {
 }
 
 exports.relay = function(next, connection) {
+	this.logdebug('-------------');
+	this.logdebug('Mailgun Relay');
+	this.logdebug('-------------');
 	if (!connection.relaying) {
+		this.logdebug('--------------');
+		this.logdebug('Relay Skipped ');
+		this.logdebug('--------------');
+
 		connection.system_log.add('Delivery Skipped').save();
 		return next(OK);
 	}
@@ -53,6 +60,10 @@ exports.relay = function(next, connection) {
 				.add(`Error: ${error}`)
 				.add(`Body: ${body}`)
 				.save();
+
+			this.logdebug('------------');
+			this.logdebug('Mailgun Sent');
+			this.logdebug('------------');
 			return next(OK);
 		});
 	})
