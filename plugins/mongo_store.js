@@ -29,7 +29,7 @@ exports.initialize_mongodb = function (next, server) {
 		.then(database => {
 			server.notes.mongodb = database.db(this.mongo_collection);
 			this.loginfo('-------------------------------------- ');
-			this.loginfo(` Successfully connected to MongoDB:${this.mongo.collection} `);
+			this.loginfo(` Successfully connected to MongoDB:${this.mongo_collection} `);
 			this.loginfo('-------------------------------------- ');
 			next();
 		}).catch(err => {
