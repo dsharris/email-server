@@ -13,7 +13,7 @@ const SystemLog = function (db, log) {
 		from: false,
 		start: new Date(),
 		block: false,
-		resent: false
+		resend: false
 	};
 
 	this.add = (msg) => {
