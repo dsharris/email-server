@@ -94,9 +94,8 @@ exports.queue_to_mongodb = function (next, connection) {
 						name: to.name,
 						email: to.address.toLowerCase()
 					};
-					this.loginfo('--------------------------------------');
-					this.loginfo(` Creating new address ${_address.email} `);
-					this.loginfo('--------------------------------------');
+					connection.system_log.add(` Creating new address ${_address.email} `);
+
 					return server.notes.mongodb.collection('addresses').insertOne(_address);
 				})
 		})
@@ -104,16 +103,12 @@ exports.queue_to_mongodb = function (next, connection) {
 		server.notes.mongodb.collection('emails').insertOne(_email)
 			.then(done => {
 				Promise.all(addressVerifications).then(done => {
-					this.loginfo('----------------------------------------------');
-					this.loginfo(' Successfully stored the email and addresses ');
-					this.loginfo('----------------------------------------------');
+					connection.system_log.add(' Successfully stored the email and addresses ');
 				})
 				next(CONT);
 			})
 			.catch(err => {
-				this.logerror('--------------------------------------');
-				this.logerror('ERROR ON INSERT : ', err);
-				this.logerror('--------------------------------------');
+				connection.system_log.add('ERROR ON INSERT : ', err).save();
 				next(DENY, "storage error");
 			});
 	});

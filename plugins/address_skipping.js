@@ -31,22 +31,17 @@ exports.test_block = function (next, connection, params) {
 	var ToAddress = `${params[0].user}@${params[0].original_host}`.toLowerCase();
 
 	if (this.block.indexOf(ToAddress) > -1) {
-		this.loginfo('--------------------------------------');
-		this.loginfo(`Skipped Address: ${ToAddress} :: block`);
-		this.loginfo('--------------------------------------');
+		connection.system_log.add(`Skipped Address: ${ToAddress} :: block`).save();
 		return next(DENY, "Skipped Address");
 	}
 
 	if (this.domains.indexOf(ToDomain) == -1) {
-		this.loginfo('---------------------------------------');
-		this.loginfo(`Skipped Address: ${ToAddress} :: domain`);
-		this.loginfo('---------------------------------------');
+		connection.system_log.add(`Skipped Address: ${ToAddress} :: domain`).save();
 		return next(DENY, "Skipped Address");
 	}
 
-	this.loginfo('--------------------------------------');
-	this.loginfo(`Passed Address: ${ToAddress}`);
-	this.loginfo('--------------------------------------');
+	connection.system_log.add(`Passed Address: ${ToAddress}`);
+
 	return next(OK);
 }
 
@@ -59,14 +54,10 @@ exports.test_resend = function(next, connection) {
 		connection.transaction.rcpt_to[0].host = this.resend_address.host;
 		connection.transaction.rcpt_to[0].original_host = this.resend_address.host;
 
-		this.loginfo('----------------------------------------');
-		this.loginfo(`Resending Address: ${ToAddress} => ${connection.transaction.rcpt_to}`);
-		this.loginfo('----------------------------------------');
+		connection.system_log.add(`Resending Address: ${ToAddress} => ${connection.transaction.rcpt_to}`);
 	} else {
 		connection.relaying = false;
-		this.loginfo('----------------------------');
-		this.loginfo(`Mail Delivery Skipped`);
-		this.loginfo('----------------------------');
+		connection.system_log.add(`Mail Delivery Skipped`);
 	}
 
 	return next(OK);

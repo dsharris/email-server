@@ -24,8 +24,10 @@ exports.load_config = function () {
 }
 
 exports.relay = function(next, connection) {
-	if (!connection.relaying)
+	if (!connection.relaying) {
+		connection.system_log.add('Delivery Skipped').save();
 		return next(OK);
+	}
 
 	ParseMail(this, connection, (email_object) => {
 		var data = {
@@ -43,9 +45,10 @@ exports.relay = function(next, connection) {
 			data.bcc = email_object.bcc.map(bcc => `${bcc.name} <${bcc.address}>`).join(', ');
 
 		this.Mailgun.messages().send(data, (error, body) => {
-			this.loginfo('-------------------');
-			this.loginfo(`${error} :: ${body}`);
-			this.loginfo('-------------------');
+			connection.system_log.add('Delivery Complete')
+				.add(`Error: ${error}`)
+				.add(`Body: ${body}`)
+				.save();
 			return next(OK);
 		});
 	})
