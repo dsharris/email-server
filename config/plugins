@@ -4,6 +4,9 @@ helo.checks
 # MAIL FROM
 mail_from.is_resolvable
 
+# MAIL
+system_log
+
 # RCPT TO
 address_skipping
 
