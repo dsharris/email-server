@@ -24,9 +24,8 @@ exports.load_config = function () {
 }
 
 exports.relay = function(next, connection) {
-	this.loginfo('-------------------');
-	this.loginfo(`connection.relaying set to: ${connection.relaying}`);
-	this.loginfo('-------------------');
+	if (!connection.relaying)
+		return next(OK);
 
 	ParseMail(this, connection, (email_object) => {
 		var data = {
@@ -45,10 +44,9 @@ exports.relay = function(next, connection) {
 
 		this.Mailgun.messages().send(data, (error, body) => {
 			this.loginfo('-------------------');
-			this.loginfo('-------------------');
 			this.loginfo(`${error} :: ${body}`);
 			this.loginfo('-------------------');
-			this.loginfo('-------------------');
+			return next(OK);
 		});
 	})
 }
