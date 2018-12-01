@@ -98,7 +98,7 @@ exports.queue_to_mongodb = function (next, connection) {
 				})
 		})
 
-		server.notes.mongodb.collection('message').insertOne(_email)
+		server.notes.mongodb.collection('messages').insertOne(_email)
 			.then(done => {
 				Promise.all(addressVerifications).then(done => {
 					this.logdebug('---------------------------------');
