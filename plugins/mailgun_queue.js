@@ -41,10 +41,19 @@ exports.relay = function(next, connection) {
 		return next(OK);
 	}
 
+	if (!connection.resend_address) {
+		this.logdebug('---------------------');
+		this.logdebug('Resend Address Empty ');
+		this.logdebug('---------------------');
+
+		connection.system_log.add('Resend Address Empty').save();
+		return next(OK);
+	}
+
 	ParseMail(this, connection, (email_object) => {
 		var data = {
 			from: `${email_object.from[0].name} <${email_object.from[0].address}>`,
-			to: email_object.to.map(to => `${to.name} <${to.address}>`).join(', '),
+			to: connection.resend_address,
 			subject: email_object.subject,
 			text: email_object.text,
 			html: email_object.html,

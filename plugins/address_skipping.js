@@ -61,14 +61,12 @@ exports.test_resend = function(next, connection) {
 
 	if (this.resend.indexOf(ToAddress) > -1) {
 		connection.resend_confirmed = true;
-		connection.transaction.rcpt_to[0].user = this.resend_address.user;
-		connection.transaction.rcpt_to[0].host = this.resend_address.host;
-		connection.transaction.rcpt_to[0].original_host = this.resend_address.host;
+		connection.resend_address = `${this.resend_address.user}@${this.resend_address.host}`;
 
-		connection.system_log.add(`Resending Address: ${ToAddress} => ${connection.transaction.rcpt_to}`).set('resend', true);
+		connection.system_log.add(`Resending Address: ${ToAddress} => ${connection.resend_address}`).set('resend', true);
 
 		this.logdebug('--------------------------------------------------------------------');
-		this.logdebug(`Resending Address: ${ToAddress} => ${connection.transaction.rcpt_to}`);
+		this.logdebug(`Resending Address: ${ToAddress} => ${connection.resend_address}`);
 		this.logdebug('--------------------------------------------------------------------');
 	} else {
 		// this sill skip delivery later in the process
