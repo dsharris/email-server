@@ -20,7 +20,7 @@ exports.load_config = function () {
 	let config = this.config.get('mongo_config.json');
 
 	this.mongo_url = config.url;
-	this.mongo_collection = 'messages';
+	this.mongo_db_name = 'dsharris';
 
 	this.loginfo('---------------------');
 	this.loginfo(`MongoDB Config Loaded`);
@@ -31,9 +31,9 @@ exports.initialize_mongodb = function (next, server) {
 	if ( ! server.notes.mongodb ) {
 		require('mongodb').MongoClient.connect(this.mongo_url, { useNewUrlParser: true })
 		.then(database => {
-			server.notes.mongodb = database.db(this.mongo_collection);
+			server.notes.mongodb = database.db(this.mongo_db_name);
 			this.loginfo('-------------------------------------- ');
-			this.loginfo(` Successfully connected to MongoDB:${this.mongo_collection} `);
+			this.loginfo(` Successfully connected to MongoDB:${this.mongo_db_name} `);
 			this.loginfo('-------------------------------------- ');
 			next();
 		}).catch(err => {
@@ -98,7 +98,7 @@ exports.queue_to_mongodb = function (next, connection) {
 				})
 		})
 
-		server.notes.mongodb.collection(this.mongo_collection).insertOne(_email)
+		server.notes.mongodb.collection('message').insertOne(_email)
 			.then(done => {
 				Promise.all(addressVerifications).then(done => {
 					this.logdebug('---------------------------------');
