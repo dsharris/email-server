@@ -20,7 +20,7 @@ exports.load_config = function () {
 	let config = this.config.get('mongo_config.json');
 
 	this.mongo_url = config.url;
-	this.mongo_collection = config.collection;
+	this.mongo_collection = 'messages';
 
 	this.loginfo('---------------------');
 	this.loginfo(`MongoDB Config Loaded`);
@@ -63,30 +63,19 @@ exports.queue_to_mongodb = function (next, connection) {
 	ParseMail(plugin, connection, (email_object) => {
 
 		var _email = {
-			// 'raw': email_object,
 			'from': email_object.from,
 			'to': email_object.to,
 			'cc': email_object.cc,
 			'bcc': email_object.bcc,
 			'subject': email_object.subject,
-			'date': email_object.date,
-			'received_date': email_object.receivedDate,
 			'message_id': email_object.messageId || new ObjectID() + '@haraka',
 			'attachments': email_object.attachments || [],
-			'headers': email_object.headers,
 			'html': email_object.html,
 			'text': email_object.text,
 			'timestamp': new Date(),
-			'status': 'unprocessed',
-			'source': 'haraka',
 			'in_reply_to' : email_object.inReplyTo,
-			'reply_to' : email_object.replyTo,
 			'references' : email_object.references,
-			'pickup_date' : new Date(),
-			'mail_from' : connection.transaction.mail_from,
-			'rcpt_to' : connection.transaction.rcpt_to,
-			'size' : connection.transaction.data_bytes,
-			'transferred' : false
+			'type': 'inbox'
 		};
 
 		let addressVerifications = email_object.to.map(to => {
