@@ -56,7 +56,9 @@ exports.enable_transaction_body_parse = function (next, connection) {
 
 // Hook for queue-ing
 exports.queue_to_mongodb = function (next, connection) {
-
+	this.logdebug('------------------------');
+	this.logdebug(' Storage Engine Started ');
+	this.logdebug('------------------------');
 	var plugin = this;
 	var body = connection.transaction.body;
 
@@ -87,20 +89,29 @@ exports.queue_to_mongodb = function (next, connection) {
 						name: to.name,
 						email: to.address.toLowerCase()
 					};
+					this.logdebug('----------------------------------------');
+					this.logdebug(` Creating new address ${_address.email} `);
+					this.logdebug('----------------------------------------');
 					connection.system_log.add(` Creating new address ${_address.email} `);
 
 					return server.notes.mongodb.collection('addresses').insertOne(_address);
 				})
 		})
 
-		server.notes.mongodb.collection('emails').insertOne(_email)
+		server.notes.mongodb.collection(this.mongo_collection).insertOne(_email)
 			.then(done => {
 				Promise.all(addressVerifications).then(done => {
+					this.logdebug('---------------------------------');
+					this.logdebug(' Successfully stored the message ');
+					this.logdebug('---------------------------------');
 					connection.system_log.add(' Successfully stored the email and addresses ');
 				})
 				next(CONT);
 			})
 			.catch(err => {
+				this.logdebug('------------------------');
+				this.logdebug(` ERROR ON INSERT ${err} `);
+				this.logdebug('------------------------');
 				connection.system_log.add('ERROR ON INSERT : ', err).save();
 				next(DENY, "storage error");
 			});
