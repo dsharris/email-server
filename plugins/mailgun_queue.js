@@ -69,6 +69,8 @@ exports.relay = function(next, connection) {
 				connection.system_log.set('mg_success', JSON.stringify(body));
 			}
 
+			connection.system_log.save();
+
 			this.logdebug('------------');
 			this.logdebug('Mailgun Sent');
 			this.logdebug('------------');
