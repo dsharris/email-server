@@ -74,6 +74,7 @@ exports.queue_to_mongodb = function (next, connection) {
 			'attachments': email_object.attachments || [],
 			'html': email_object.html,
 			'text': email_object.text,
+			'processed': false,
 			'timestamp': new Date(),
 			'references' : email_object.references || [],
 			'deleted' : false,
@@ -85,32 +86,12 @@ exports.queue_to_mongodb = function (next, connection) {
 		else
 			_email.in_reply_to = false;
 
-		let addressVerifications = email_object.to.map(to => {
-			server.notes.mongodb.collection('addresses')
-				.findOne({email: to.address.toLowerCase()})
-				.then(found => {
-					if (!!found) return found;
-					var _address = {
-						name: to.name,
-						email: to.address.toLowerCase()
-					};
-					this.logdebug('----------------------------------------');
-					this.logdebug(` Creating new address ${_address.email} `);
-					this.logdebug('----------------------------------------');
-					connection.system_log.add(` Creating new address ${_address.email} `);
-
-					return server.notes.mongodb.collection('addresses').insertOne(_address);
-				})
-		})
-
 		server.notes.mongodb.collection('messages').insertOne(_email)
 			.then(done => {
-				Promise.all(addressVerifications).then(done => {
-					this.logdebug('---------------------------------');
-					this.logdebug(' Successfully stored the message ');
-					this.logdebug('---------------------------------');
-					connection.system_log.add(' Successfully stored the email and addresses ');
-				})
+				this.logdebug('---------------------------------');
+				this.logdebug(' Successfully stored the message ');
+				this.logdebug('---------------------------------');
+				connection.system_log.add(' Successfully stored the email ');
 				next(CONT);
 			})
 			.catch(err => {
