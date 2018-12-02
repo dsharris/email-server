@@ -75,10 +75,14 @@ exports.queue_to_mongodb = function (next, connection) {
 			'html': email_object.html,
 			'text': email_object.text,
 			'timestamp': new Date(),
-			'in_reply_to' : email_object.inReplyTo,
 			'references' : email_object.references,
 			'type': 'inbox'
 		};
+
+		if (!!email_object.inReplyTo && email_object.inReplyTo.length > 0)
+			_email.in_reply_to = email_object.inReplyTo[0];
+		else
+			_email.in_reply_to = false;
 
 		let addressVerifications = email_object.to.map(to => {
 			server.notes.mongodb.collection('addresses')
