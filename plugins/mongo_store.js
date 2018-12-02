@@ -77,10 +77,14 @@ exports.queue_to_mongodb = function (next, connection) {
 			'processed': false,
 			'timestamp': new Date(),
 			'references' : email_object.references || [],
-			'rcpt_to' : connection.transaction.rcpt_to,
 			'deleted' : false,
 			'type': 'inbox'
 		};
+
+		if (!!connection.transaction.rcpt_to && connection.transaction.rcpt_to.length > 0) {
+			let rcpt = connection.transaction.rcpt_to[0];
+			_email.rcpt_to = `${rcpt.user}@${rcpt.host}`;
+		}
 
 		if (!!email_object.inReplyTo && email_object.inReplyTo.length > 0)
 			_email.in_reply_to = email_object.inReplyTo[0];
