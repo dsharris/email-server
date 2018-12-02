@@ -75,7 +75,7 @@ exports.queue_to_mongodb = function (next, connection) {
 			'html': email_object.html,
 			'text': email_object.text,
 			'timestamp': new Date(),
-			'references' : email_object.references,
+			'references' : email_object.references || [],
 			'type': 'inbox'
 		};
 
