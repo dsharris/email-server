@@ -77,6 +77,7 @@ exports.queue_to_mongodb = function (next, connection) {
 			'processed': false,
 			'timestamp': new Date(),
 			'references' : email_object.references || [],
+			'rcpt_to' : connection.transaction.rcpt_to,
 			'deleted' : false,
 			'type': 'inbox'
 		};
