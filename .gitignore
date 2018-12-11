@@ -4,6 +4,7 @@ config/config.json
 config/mongo_config.json
 config/address_config.json
 config/mailgun_config.json
+config/skipped.emails.json
 
 # Site stuff
 data/
