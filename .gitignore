@@ -3,6 +3,7 @@ config/smtp_forward.ini
 config/config.json
 config/mongo_config.json
 config/address_config.json
+config/mailgun_config.json
 
 # Site stuff
 data/
